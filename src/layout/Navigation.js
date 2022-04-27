@@ -8,7 +8,7 @@ import "./Navigation.css"
 
 const Navigation = props => {
     return (
-        <Navbar bg="dark" expand="lg">
+        <Navbar bg="dark" expand="lg" variant="dark">
             <Container>
                 <Navbar.Brand><Link to="/">The Movie Source</Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

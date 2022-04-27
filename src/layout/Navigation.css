@@ -1,0 +1,61 @@
+.bg-dark {
+    background-color: black !important;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: 600;
+}
+
+.navbar {
+    padding: 0.5em 0;
+}
+
+.container {
+    margin: 0;
+    max-width: 100vw !important;
+}
+
+a[role="button"] {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a[href] {
+    color: white;
+    text-decoration: none;
+}
+
+a[href]:hover {
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+a[href]:focus-visible {
+    outline-color: white;
+}
+
+.navbar-nav {
+    justify-content: space-between;
+    margin-right: 0 !important;
+    width: 100%;
+}
+
+form {
+    display: flex;
+    align-items: center;
+}
+
+@media only screen and (max-width: 992px) {
+
+    .navbar-nav {
+        align-items: flex-start;
+    }
+    
+    #blank-span {
+        display: none;
+    }
+
+}

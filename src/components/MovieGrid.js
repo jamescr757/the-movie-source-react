@@ -55,7 +55,7 @@ const MovieGrid = props => {
     }, [props.movies])
 
     useEffect(() => {
-        if (!movies) setMovies(JSON.parse(sessionStorage.search).movies)
+        if (!movies && apiType === "search") setMovies(JSON.parse(sessionStorage.search).movies)
     }, [])
 
     if (!movies) return (

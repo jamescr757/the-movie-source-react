@@ -1,14 +1,19 @@
 import React from "react";
 import { useParams } from 'react-router-dom';
 import "./MovieGrid.css";
+import determineTitle from "../utils/docTitle";
 
-const MovieGrid = props => {
+const MovieGrid = () => {
 
-    const { searchText } = useParams();
+    const { apiType, searchText } = useParams();
+
+    React.useEffect(() => {
+        document.title = `The Movie Source - ${determineTitle(apiType)}`;
+    }, [apiType])
 
     return (
         <div className="card-container">
-            <div>{props.api}</div>
+            <div>{apiType}</div>
             {searchText && <div>{searchText}</div>}
         </div>
     )

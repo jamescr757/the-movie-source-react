@@ -25,6 +25,7 @@ a[role="button"] {
 }
 
 a[href] {
+    color: white;
     text-decoration: none;
 }
 

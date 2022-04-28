@@ -19,6 +19,7 @@ const Navigation = props => {
                         <Link className="nav-link" role="button" to="/popular">Popular</Link>
                         <Link className="nav-link" role="button" to="/now-playing">Now Playing</Link>
                         <Link className="nav-link" role="button" to="/upcoming">Upcoming</Link>
+                        {/* form should probably be a separate component */}
                         <Form onSubmit={props.handleSubmit}>
                             <Form.Group>
                                 <Form.Control 

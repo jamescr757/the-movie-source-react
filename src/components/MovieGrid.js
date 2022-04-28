@@ -58,12 +58,7 @@ const MovieGrid = () => {
         <>
             <div className="card-container">
                 {movies.map((movie, index) => (
-                    <MovieCard 
-                        key={index}
-                        title={movie.title}
-                        subtitle={`Rating: ${movie.vote_average}`}
-                        image={movie.poster_path}
-                    />
+                    <MovieCard key={index} movie={movie} />
                 ))}
             </div>
             {page < 20 && <LoadMoreBtn handleClick={loadMoreMovies} />}

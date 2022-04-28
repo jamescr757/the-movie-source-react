@@ -4,8 +4,8 @@ const determineTitle = searchType => {
             return "Top Rated";
         case "popular":
             return "Popular";
-        case "in-theaters":
-            return "In Theaters";
+        case "now-playing":
+            return "Now Playing";
         case "upcoming":
             return "Upcoming";
         default:

@@ -17,7 +17,7 @@ const Navigation = props => {
                         <span id="blank-span"></span>
                         <Link role="button" className="nav-link" to="/top-rated">Top Rated</Link>
                         <Link className="nav-link" role="button" to="/popular">Popular</Link>
-                        <Link className="nav-link" role="button" to="/in-theaters">In Theaters</Link>
+                        <Link className="nav-link" role="button" to="/now-playing">Now Playing</Link>
                         <Link className="nav-link" role="button" to="/upcoming">Upcoming</Link>
                         <Form>
                             <Form.Group>

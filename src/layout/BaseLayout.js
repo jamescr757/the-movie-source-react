@@ -5,7 +5,7 @@ import Footer from "./Footer";
 const BaseLayout = props => {
     return (
         <>
-            <Navigation />
+            <Navigation {...props} />
             {props.children}
             <Footer />
         </>

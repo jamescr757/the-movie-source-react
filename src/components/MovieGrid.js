@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
-import "./MovieGrid.css";
-import determineTitle from "../utils/docTitle";
 import MovieCard from "./MovieCard";
+import LoadMoreBtn from "./LoadMoreBtn";
+import determineTitle from "../utils/docTitle";
 import determineAPI from "../utils/apiType";
 import timeExpired from "../utils/timeExpiration";
-import LoadMoreBtn from "./LoadMoreBtn";
+import "./MovieGrid.css";
 
-const MovieGrid = () => {
+const MovieGrid = props => {
 
     const { apiType } = useParams();
 
-    const [movies, setMovies] = useState([]);
+    const [movies, setMovies] = useState(null);
     const [page, setPage] = useState(1);
 
+    // move to utility file?
     const fetchCall = async (pageNum) => {
         const response = await fetch(`https://api.themoviedb.org/3/movie/${determineAPI(apiType)}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=${pageNum}`);
         return await response.json();
@@ -22,7 +23,7 @@ const MovieGrid = () => {
     const fetchAndSetMovies = async (pageNum) => {
         console.log("calling api");
         const data = await fetchCall(pageNum);
-        setMovies(data.results.filter(movie => movie.original_language === "en"));
+        setMovies(data.results.filter(movie => movie.original_language === "en" && movie.vote_average && movie.poster_path));
         sessionStorage.setItem(determineAPI(apiType), JSON.stringify({
             movies: data.results,
             time: Date.now()
@@ -46,8 +47,16 @@ const MovieGrid = () => {
         if (sessionStorage[apiKey] && !timeExpired(apiKey)) {
             console.log("pulling from storage");
             setMovies(JSON.parse(sessionStorage[apiKey]).movies)
-        } else fetchAndSetMovies(page);
+        } else if (apiKey !== "search") fetchAndSetMovies(page);
     }, [apiType])
+
+    useEffect(() => {
+        setMovies(props.movies)
+    }, [props.movies])
+
+    useEffect(() => {
+        if (!movies) setMovies(JSON.parse(sessionStorage.search).movies)
+    }, [])
 
     if (!movies) return (
         <div className="loader">
@@ -57,11 +66,15 @@ const MovieGrid = () => {
     return (
         <>
             <div className="card-container">
-                {movies.map((movie, index) => (
-                    <MovieCard key={index} movie={movie} />
-                ))}
+                {movies.length ? 
+                    movies.map((movie, index) => (
+                        <MovieCard key={index} movie={movie} />
+                    ))
+                    :
+                    <h4>There are no results for that search.</h4>
+                }
             </div>
-            {page < 20 && <LoadMoreBtn handleClick={loadMoreMovies} />}
+            {page < 20 && apiType !== "search" && <LoadMoreBtn handleClick={loadMoreMovies} />}
         </>
     )
 }

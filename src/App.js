@@ -3,22 +3,21 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import BaseLayout from "./layout/BaseLayout";
 import HomePage from "./components/HomePage";
 import MovieGrid from "./components/MovieGrid";
+import Footer from "./layout/Footer";
+import CardPage from "./components/CardPage";
 
 
 function App() {
   return (
-    <Router>
-      <BaseLayout>
+    <>
+      <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/:apiType" element={<MovieGrid />} />
-          {/* <Route path="/in-theaters" element={<MovieGrid api="In Theaters" />} />
-          <Route path="/upcoming" element={<MovieGrid api="Upcoming" />} />
-          <Route path="/popular" element={<MovieGrid api="Popular" />} />
-          <Route path="/search/:searchText" element={<MovieGrid api="Search" />} /> */}
+          <Route path="/:apiType" element={<CardPage />} />
         </Routes>
-      </BaseLayout>
-    </Router>
+      </Router>
+      <Footer />
+    </>
   );
 }
 

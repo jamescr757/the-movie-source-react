@@ -1,31 +1,26 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import Navigation from "../layout/Navigation";
+import MovieGrid from "./MovieGrid";
 
-const HomePage = props => {
+const CardPage = () => {
 
+    const [movies, setMovies] = React.useState(null);
     const [userInput, setUserInput] = React.useState("");
     const navigate = useNavigate();
 
     const fetchMovies = async (input) => {
         const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=1&include_adult=false&query=${input}`)
         const data = await response.json();
-        const movies = data.results.filter(movie => movie.original_language === "en" && movie.vote_average && movie.poster_path);
-        sessionStorage.setItem("search", JSON.stringify({
-            movies: movies,
-            time: Date.now()
-        }))
+        setMovies(data.results.filter(movie => movie.original_language === "en" && movie.vote_average && movie.poster_path));
         navigate("/search");
     }
 
     const handleSubmit = event => {
         event.preventDefault();
         fetchMovies(userInput);
+        setUserInput("");
     }
-
-    React.useEffect(() => {
-        document.title = "The Movie Source";
-    }, [])
 
     return (
         <>
@@ -34,9 +29,9 @@ const HomePage = props => {
                 handleSubmit={handleSubmit} 
                 userInput={userInput} 
             />
-            <div>Home Page</div>
+            <MovieGrid movies={movies} />
         </>
     )
 }
 
-export default HomePage;
+export default CardPage

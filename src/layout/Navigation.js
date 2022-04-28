@@ -19,9 +19,14 @@ const Navigation = props => {
                         <Link className="nav-link" role="button" to="/popular">Popular</Link>
                         <Link className="nav-link" role="button" to="/now-playing">Now Playing</Link>
                         <Link className="nav-link" role="button" to="/upcoming">Upcoming</Link>
-                        <Form>
+                        <Form onSubmit={props.handleSubmit}>
                             <Form.Group>
-                                <Form.Control type="text" placeholder="🔎  Search" />
+                                <Form.Control 
+                                    type="text" 
+                                    placeholder="🔎  Search" 
+                                    onChange={props.handleChange}
+                                    value={props.userInput}
+                                />
                             </Form.Group>
                         </Form>
                     </Nav>

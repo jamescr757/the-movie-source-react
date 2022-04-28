@@ -10,15 +10,15 @@ const Navigation = props => {
     return (
         <Navbar bg="dark" expand="lg" variant="dark">
             <Container>
-                <Navbar.Brand><Link to="/">The Movie Source</Link></Navbar.Brand>
+                <Navbar.Brand><Link to="/" id="brand-link">The Movie Source</Link></Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav>
                         <span id="blank-span"></span>
-                        <Nav.Link><Link to="/top-rated">Top Rated</Link></Nav.Link>
-                        <Nav.Link><Link to="/popular">Popular</Link></Nav.Link>
-                        <Nav.Link><Link to="/in-theaters">In Theaters</Link></Nav.Link>
-                        <Nav.Link><Link to="/upcoming">Upcoming</Link></Nav.Link>
+                        <Link role="button" className="nav-link" to="/top-rated">Top Rated</Link>
+                        <Link className="nav-link" role="button" to="/popular">Popular</Link>
+                        <Link className="nav-link" role="button" to="/in-theaters">In Theaters</Link>
+                        <Link className="nav-link" role="button" to="/upcoming">Upcoming</Link>
                         <Form>
                             <Form.Group>
                                 <Form.Control type="text" placeholder="🔎  Search" />

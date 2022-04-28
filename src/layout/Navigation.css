@@ -21,16 +21,22 @@ a[role="button"] {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white !important;
 }
 
 a[href] {
-    color: white;
     text-decoration: none;
 }
 
 a[href]:hover {
+    color: white;
     font-weight: 700;
     font-size: 1.1em;
+}
+
+#brand-link:hover {
+    font-size: 1.25rem;
+    font-weight: 600;
 }
 
 a[href]:focus-visible {

@@ -5,24 +5,18 @@ import LoadMoreBtn from "./LoadMoreBtn";
 import determineTitle from "../utils/docTitle";
 import determineAPI from "../utils/apiType";
 import timeExpired from "../utils/timeExpiration";
+import fetchMoviesCall from "../utils/fetchMovies";
 import "./MovieGrid.css";
 
 const MovieGrid = props => {
 
-    const { apiType } = useParams();
+    const { apiType, searchInput } = useParams();
 
     const [movies, setMovies] = useState(null);
     const [page, setPage] = useState(1);
-
-    // move to utility file?
-    const fetchCall = async (pageNum) => {
-        const response = await fetch(`https://api.themoviedb.org/3/movie/${determineAPI(apiType)}?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=${pageNum}`);
-        return await response.json();
-    }
     
     const fetchAndSetMovies = async (pageNum) => {
-        console.log("calling api");
-        const data = await fetchCall(pageNum);
+        const data = await fetchMoviesCall(pageNum, determineAPI(apiType));
         setMovies(data.results.filter(movie => movie.original_language === "en" && movie.vote_average && movie.poster_path));
         sessionStorage.setItem(determineAPI(apiType), JSON.stringify({
             movies: data.results,
@@ -31,7 +25,7 @@ const MovieGrid = props => {
     }
 
     const fetchMoreMovies = async (pageNum) => {
-        const data = await fetchCall(pageNum);
+        const data = await fetchMoviesCall(pageNum, determineAPI(apiType));
         const newMovies = data.results.filter(movie => movie.original_language === "en" && movie.vote_average && movie.poster_path);
         setMovies(movies.concat(newMovies));
     }   
@@ -44,10 +38,8 @@ const MovieGrid = props => {
     useEffect(() => {
         document.title = `The Movie Source - ${determineTitle(apiType)}`;
         const apiKey = determineAPI(apiType);
-        if (sessionStorage[apiKey] && !timeExpired(apiKey)) {
-            console.log("pulling from storage");
-            setMovies(JSON.parse(sessionStorage[apiKey]).movies)
-        } else if (apiKey !== "search") fetchAndSetMovies(page);
+        if (sessionStorage[apiKey] && !timeExpired(apiKey)) setMovies(JSON.parse(sessionStorage[apiKey]).movies)
+        else if (apiKey !== "search") fetchAndSetMovies(page);
     }, [apiType])
 
     useEffect(() => {
@@ -55,7 +47,11 @@ const MovieGrid = props => {
     }, [props.movies])
 
     useEffect(() => {
-        if (!movies && apiType === "search") setMovies(JSON.parse(sessionStorage.search).movies)
+        if (apiType === "search") setMovies(JSON.parse(sessionStorage[searchInput]).movies);
+    }, [searchInput])
+
+    useEffect(() => {
+        if (!movies && apiType === "search") setMovies(JSON.parse(sessionStorage[searchInput]).movies)
     }, [])
 
     if (!movies) return (

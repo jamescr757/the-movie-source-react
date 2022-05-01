@@ -11,6 +11,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/:apiType/:searchInput" element={<CardPage />} />
           <Route path="/:apiType" element={<CardPage />} />
         </Routes>
       </Router>

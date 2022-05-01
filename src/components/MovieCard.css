@@ -8,6 +8,12 @@
     margin: 1rem;
 }
 
+.movie-card:hover {
+    transform: scale(1.1);
+    filter: brightness(1.25);
+    cursor: pointer;
+}
+
 .card-body {
     border-top: white solid 2px;
 }

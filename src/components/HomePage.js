@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom'
 import Navigation from "../layout/Navigation";
+import hypenator from "../utils/hyphenator";
 
 const HomePage = props => {
 
@@ -11,11 +12,11 @@ const HomePage = props => {
         const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&page=1&include_adult=false&query=${input}`)
         const data = await response.json();
         const movies = data.results.filter(movie => movie.original_language === "en" && movie.vote_average && movie.poster_path);
-        sessionStorage.setItem("search", JSON.stringify({
+        sessionStorage.setItem(hypenator(input), JSON.stringify({
             movies: movies,
             time: Date.now()
         }))
-        navigate("/search");
+        navigate(`/search/${hypenator(input)}`);
     }
 
     const handleSubmit = event => {

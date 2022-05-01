@@ -23,6 +23,8 @@ const MovieCard = ({ movie }) => {
             <InfoModal 
                 show={showModal}
                 handleClose={() => setShowModal(false)}
+                id={movie.id}
+                title={movie.title}
                 movie={movie}
             />
         </>

@@ -7,7 +7,7 @@ import convertRuntime from "../utils/convertRuntime";
 import formatReleaseDate from "../utils/formatReleaseDate";
 import "./InfoModal.css";
 
-const InfoModal = ({ movie, show, handleClose }) => {
+const InfoModal = ({ movie, id, title, show, handleClose }) => {
 
     const [displayInfo, setDisplayInfo] = React.useState(true)
     const [movieDetails, setMovieDetails] = React.useState(null)
@@ -21,13 +21,13 @@ const InfoModal = ({ movie, show, handleClose }) => {
     }
 
     const fetchAndSetMovieDetails = async () => {
-        const data = await fetchMovieDetails(movie.id);
+        const data = await fetchMovieDetails(id);
         setMovieDetails(data);
     }
 
     React.useEffect(() => {
         fetchAndSetMovieDetails();
-    }, [])
+    }, [show])
 
     return (
         <Modal 
@@ -38,13 +38,13 @@ const InfoModal = ({ movie, show, handleClose }) => {
             scrollable={true}
         >
             <Modal.Header closeButton>
-                <Modal.Title>{movie.title}</Modal.Title>
+                <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 {movieDetails ? 
                     (displayInfo ?
                         <>
-                            <img alt={movie.title} src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}/>
+                            <img alt={title} src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}/>
                             <div>
                                 <p><span className="modal-label">Movie Title: </span>{movieDetails.title}</p>
                                 <p><span className="modal-label">Release Date: </span>{formatReleaseDate(movieDetails.release_date)}</p>

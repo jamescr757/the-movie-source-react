@@ -1,6 +1,7 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import { useParams } from 'react-router-dom'
+
 import determineSubtitle from "../utils/determineSubtitle";
 import InfoModal from "./InfoModal";
 import "./MovieCard.css";

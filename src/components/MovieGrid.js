@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from "react-redux";
+import { Fade } from "react-awesome-reveal"
+
 import MovieCard from "./MovieCard";
 import LoadMoreBtn from "./LoadMoreBtn";
 import determineTitle from "../utils/docTitle";
 import determineAPI from "../utils/apiType";
 import timeExpired from "../utils/timeExpiration";
 import fetchMoviesCall from "../utils/fetchMovies";
+import { addMoreMovies, loadMovies } from "../actions/movieActions";
 import "./MovieGrid.css";
 
 const MovieGrid = props => {
 
     const { apiType, searchInput } = useParams();
 
-    const [movies, setMovies] = useState(null);
+    const movies = useSelector(state => state.movies.movies);
+    const dispatch = useDispatch();
+
     const [page, setPage] = useState(1);
     
     const fetchAndSetMovies = async (pageNum) => {
         const data = await fetchMoviesCall(pageNum, determineAPI(apiType));
-        setMovies(data.results.filter(movie => movie.original_language === "en" && movie.vote_average && movie.poster_path));
+        const englishMovies = data.results.filter(movie => movie.original_language === "en" && movie.vote_average && movie.poster_path)
+        dispatch(loadMovies(englishMovies));
         sessionStorage.setItem(determineAPI(apiType), JSON.stringify({
-            movies: data.results,
+            movies: englishMovies,
             time: Date.now()
         }))
     }
@@ -27,7 +34,7 @@ const MovieGrid = props => {
     const fetchMoreMovies = async (pageNum) => {
         const data = await fetchMoviesCall(pageNum, determineAPI(apiType));
         const newMovies = data.results.filter(movie => movie.original_language === "en" && movie.vote_average && movie.poster_path);
-        setMovies(movies.concat(newMovies));
+        dispatch(addMoreMovies(newMovies));
     }   
 
     const loadMoreMovies = () => {
@@ -38,21 +45,22 @@ const MovieGrid = props => {
     useEffect(() => {
         document.title = `The Movie Source - ${determineTitle(apiType)}`;
         const apiKey = determineAPI(apiType);
-        if (sessionStorage[apiKey] && !timeExpired(apiKey)) setMovies(JSON.parse(sessionStorage[apiKey]).movies)
-        else if (apiKey !== "search") fetchAndSetMovies(page);
+        if (sessionStorage[apiKey] && !timeExpired(apiKey)) dispatch(loadMovies(JSON.parse(sessionStorage[apiKey]).movies))
+        else if (apiType !== "search") fetchAndSetMovies(page);
+        // else dispatch(loadMovies(JSON.parse(sessionStorage[searchInput]).movies))
     }, [apiType])
 
-    useEffect(() => {
-        setMovies(props.movies)
-    }, [props.movies])
+    // useEffect(() => {
+    //     setMovies(props.movies)
+    // }, [props.movies])
 
     useEffect(() => {
-        if (apiType === "search") setMovies(JSON.parse(sessionStorage[searchInput]).movies);
+        if (apiType === "search") dispatch(loadMovies(JSON.parse(sessionStorage[searchInput]).movies));
     }, [searchInput])
 
-    useEffect(() => {
-        if (!movies && apiType === "search") setMovies(JSON.parse(sessionStorage[searchInput]).movies)
-    }, [])
+    // useEffect(() => {
+    //     if (!movies && apiType === "search") dispatch(loadMovies(JSON.parse(sessionStorage[searchInput]).movies))
+    // }, [])
 
     if (!movies) return (
         <div className="loader">
@@ -64,7 +72,9 @@ const MovieGrid = props => {
             <div className="card-container">
                 {movies.length ? 
                     movies.map((movie, index) => (
-                        <MovieCard key={index} movie={movie} />
+                        <Fade cascade bottom>
+                            <MovieCard key={index} movie={movie} />
+                        </Fade>
                     ))
                     :
                     <h4>There are no results for that search.</h4>

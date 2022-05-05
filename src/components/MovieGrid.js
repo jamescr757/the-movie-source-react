@@ -12,13 +12,12 @@ import fetchMoviesCall from "../utils/fetchMovies";
 import { addMoreMovies, loadMovies } from "../actions/movieActions";
 import "./MovieGrid.css";
 
-const MovieGrid = props => {
+const MovieGrid = () => {
 
     const { apiType, searchInput } = useParams();
 
-    const movies = useSelector(state => state.movies.movies);
     const dispatch = useDispatch();
-
+    const movies = useSelector(state => state.movies.movies);
     const [page, setPage] = useState(1);
     
     const fetchAndSetMovies = async (pageNum) => {
@@ -47,20 +46,11 @@ const MovieGrid = props => {
         const apiKey = determineAPI(apiType);
         if (sessionStorage[apiKey] && !timeExpired(apiKey)) dispatch(loadMovies(JSON.parse(sessionStorage[apiKey]).movies))
         else if (apiType !== "search") fetchAndSetMovies(page);
-        // else dispatch(loadMovies(JSON.parse(sessionStorage[searchInput]).movies))
     }, [apiType])
-
-    // useEffect(() => {
-    //     setMovies(props.movies)
-    // }, [props.movies])
 
     useEffect(() => {
         if (apiType === "search") dispatch(loadMovies(JSON.parse(sessionStorage[searchInput]).movies));
     }, [searchInput])
-
-    // useEffect(() => {
-    //     if (!movies && apiType === "search") dispatch(loadMovies(JSON.parse(sessionStorage[searchInput]).movies))
-    // }, [])
 
     if (!movies) return (
         <div className="loader">
@@ -72,7 +62,7 @@ const MovieGrid = props => {
             <div className="card-container">
                 {movies.length ? 
                     movies.map((movie, index) => (
-                        <Fade cascade bottom>
+                        <Fade cascade bottom key={index}>
                             <MovieCard key={index} movie={movie} />
                         </Fade>
                     ))

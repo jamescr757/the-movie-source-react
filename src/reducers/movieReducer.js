@@ -3,7 +3,7 @@ import types from "../actions"
 const movieReducer = (state, action) => {
     if (!state) {
         state = {
-            movies: []
+            movies: null
         }
     }
     switch (action.type) {

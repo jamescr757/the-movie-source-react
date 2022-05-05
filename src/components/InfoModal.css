@@ -12,8 +12,28 @@
     height: 520px;
 }
 
+.trailers-container div {
+    margin: 0 0 1rem 0;
+    width: 100%;
+}
+
 @media only screen and (max-width: 950px) {
     .modal-body img {
         display: none;
+    }
+
+    .trailers-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .trailers-container div {
+        flex-direction: column;
+        margin: 0;
+    }
+
+    .trailers-container div iframe {
+        margin: 0.5rem
     }
 }

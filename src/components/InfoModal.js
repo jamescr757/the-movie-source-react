@@ -1,23 +1,26 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+
 import fetchMovieDetails from "../utils/fetchMovieDetails";
 import concatGenres from "../utils/concatGenres";
 import convertRuntime from "../utils/convertRuntime";
 import formatReleaseDate from "../utils/formatReleaseDate";
+import movieTitleConverter from "../utils/movieTitleConverter";
+import fetchTrailers from "../utils/fetchTrailers";
 import "./InfoModal.css";
+import MovieTrailer from "./MovieTrailer";
 
 const InfoModal = ({ movie, id, title, show, handleClose }) => {
 
     const [displayInfo, setDisplayInfo] = React.useState(true)
     const [movieDetails, setMovieDetails] = React.useState(null)
+    const [movieTrailers, setMovieTrailers] = React.useState([]);
     
-    const showTrailers = () => {
-        setDisplayInfo(false)
-    }
-
-    const showInfo = () => {
-        setDisplayInfo(true)
+    const showTrailers = async title => {
+        const data = await fetchTrailers(movieTitleConverter(title));
+        setMovieTrailers(data.items.map(movie => movie.id.videoId));
+        setDisplayInfo(false);
     }
 
     const fetchAndSetMovieDetails = async () => {
@@ -27,6 +30,7 @@ const InfoModal = ({ movie, id, title, show, handleClose }) => {
 
     React.useEffect(() => {
         fetchAndSetMovieDetails();
+        if (!show) setDisplayInfo(true);
     }, [show])
 
     return (
@@ -58,9 +62,16 @@ const InfoModal = ({ movie, id, title, show, handleClose }) => {
                             </div>
                         </>
                         :
-                        <>
-                            <div>Movie Trailers</div>
-                        </>
+                        <div className="trailers-container">
+                            <div className="d-flex">
+                                <MovieTrailer key={movieTrailers[0]} movie={movieTrailers[0]} css="me-3" />
+                                <MovieTrailer key={movieTrailers[1]} movie={movieTrailers[1]} />
+                            </div>
+                            <div className="d-flex">
+                                <MovieTrailer key={movieTrailers[2]} movie={movieTrailers[2]} css="me-3" />
+                                <MovieTrailer key={movieTrailers[3]} movie={movieTrailers[3]} />
+                            </div>
+                        </div>
                     )
                     :
                     <div className="loader">
@@ -70,11 +81,11 @@ const InfoModal = ({ movie, id, title, show, handleClose }) => {
             </Modal.Body>
             <Modal.Footer>
                 {displayInfo ? 
-                    <Button variant="success" onClick={showTrailers}>
+                    <Button variant="success" onClick={() => showTrailers(title)}>
                         Trailers
                     </Button>
                     :
-                    <Button variant="primary" onClick={showInfo}>
+                    <Button variant="primary" onClick={() => setDisplayInfo(true)}>
                         Details
                     </Button>
                 }

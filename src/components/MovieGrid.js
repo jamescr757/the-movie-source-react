@@ -21,13 +21,8 @@ const MovieGrid = () => {
     const [page, setPage] = useState(1);
     
     const fetchAndSetMovies = async (pageNum) => {
-        const data = await fetchMoviesCall(pageNum, determineAPI(apiType));
-        const englishMovies = data.results.filter(movie => movie.original_language === "en" && movie.vote_average && movie.poster_path)
-        dispatch(loadMovies(englishMovies));
-        sessionStorage.setItem(determineAPI(apiType), JSON.stringify({
-            movies: englishMovies,
-            time: Date.now()
-        }))
+        const movies = await fetchMoviesCall(pageNum, determineAPI(apiType), false);
+        dispatch(loadMovies(movies));
     }
 
     const fetchMoreMovies = async (pageNum) => {

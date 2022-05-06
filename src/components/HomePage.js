@@ -2,6 +2,8 @@ import React from "react";
 
 import Navigation from "../layout/Navigation";
 import "./HomePage.css";
+import MovieCarousel from "./MovieCarousel";
+import MoviePoster from "./MoviePoster";
 
 const HomePage = () => {
 
@@ -12,7 +14,11 @@ const HomePage = () => {
     return (
         <>
             <Navigation />
-            <div>Home Page</div>
+            <div className="home-main-content p-4">
+                <MoviePoster />
+                <MovieCarousel />
+                <MoviePoster />
+            </div>
         </>
     )
 }

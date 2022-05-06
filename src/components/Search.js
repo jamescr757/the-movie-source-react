@@ -14,13 +14,8 @@ const Search = () => {
     const [input, setInput] = useState("");
 
     const fetchMovies = async (input) => {
-        const data = await fetchMoviesSearch(input);
-        const englishMovies = data.results.filter(movie => movie.original_language === "en" && movie.vote_average && movie.poster_path)
-        dispatch(loadMovies(englishMovies));
-        sessionStorage.setItem(hypenator(input), JSON.stringify({
-            movies: englishMovies,
-            time: Date.now()
-        }))
+        const movies = await fetchMoviesSearch(input);
+        dispatch(loadMovies(movies));
         navigate(`/search/${hypenator(input)}`);
     }
 

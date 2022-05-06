@@ -1,5 +1,6 @@
 .bg-dark {
     background-color: black !important;
+    border-bottom: white solid 2px;
 }
 
 .navbar-brand {

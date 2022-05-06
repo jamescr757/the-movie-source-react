@@ -15,9 +15,9 @@ const HomePage = () => {
         <>
             <Navigation />
             <div className="home-main-content p-4">
-                <MoviePoster />
+                <MoviePoster apiCall="popular" />
                 <MovieCarousel />
-                <MoviePoster />
+                <MoviePoster apiCall="top_rated" />
             </div>
         </>
     )

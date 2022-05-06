@@ -16,10 +16,7 @@ const setMoviesInStorage = (movies, key) => {
 }
 
 const fetchMoviesCall = async (page, type, noSet=true) => {
-    if (!noSet && sessionStorage[type] && !timeExpired(type)) {
-        console.log("pulling from storage");
-        return JSON.parse(sessionStorage[type]).movies
-    }     
+    if (!noSet && sessionStorage[type] && !timeExpired(type)) return JSON.parse(sessionStorage[type]).movies
     const movies = await fetchCall("movie", type, page);
     return noSet ? movies : setMoviesInStorage(movies, type);
 }

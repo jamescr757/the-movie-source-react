@@ -26,9 +26,8 @@ const MovieGrid = () => {
     }
 
     const fetchMoreMovies = async (pageNum) => {
-        const data = await fetchMoviesCall(pageNum, determineAPI(apiType));
-        const newMovies = data.results.filter(movie => movie.original_language === "en" && movie.vote_average && movie.poster_path);
-        dispatch(addMoreMovies(newMovies));
+        const movies = await fetchMoviesCall(pageNum, determineAPI(apiType));
+        dispatch(addMoreMovies(movies));
     }   
 
     const loadMoreMovies = () => {

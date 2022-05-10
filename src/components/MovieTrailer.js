@@ -5,11 +5,9 @@ const MovieTrailer = ({ movie, css }) => {
             height="202.5"
             className={css}
             src={`https://www.youtube.com/embed/${movie}`}
-            frameborder="0"
+            frameBorder="0"
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen="true"
-            webkitallowfullscreen="true"
-            mozallowfullscreen="true"
+            allowFullScreen={true}
         >
         </iframe>
     )

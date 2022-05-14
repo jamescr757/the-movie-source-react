@@ -1,7 +1,7 @@
 # The Movie Source 
 Front-end React + Redux app that uses movie and YouTube APIs to render content and trailers 
 
-(Live Application)[https://627d3b6370cc2a10c6a3551e--the-movie-source.netlify.app/search/the-matrix]
+[Live Application](https://627d3b6370cc2a10c6a3551e--the-movie-source.netlify.app/search/the-matrix)
 
 ![home page](./public/images/home-page.png)
 
@@ -27,6 +27,6 @@ The user also has the ability to search for any movie using the search input in 
 - Bootstrap
 
 ## Creator
-James Riddle - (Portfolio)[https://jamescr757.github.io/Portfolio/] | (Github)[https://github.com/jamescr757]
+James Riddle - [Portfolio](https://jamescr757.github.io/Portfolio/) | [Github](https://github.com/jamescr757)
 
 There's a demo of this application in the Projects section of my portfolio

@@ -29,4 +29,4 @@ The user also has the ability to search for any movie using the search input in 
 ## Creator
 James Riddle - [Portfolio](https://jamescr757.github.io/Portfolio/) | [Github](https://github.com/jamescr757)
 
-There's a demo of this application in the Projects section of my portfolio
+There's a demo of this application in the Projects section of my portfolio.
